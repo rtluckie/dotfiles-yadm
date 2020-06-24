@@ -1,0 +1,129 @@
+#!/usr/bin/env zsh
+
+export PATH="/usr/local/bin:/usr/local/sbin:$HOME/.scripts:$PATH"
+export PATH=$HOME/.local/bin:$PATH
+export ZSH=$HOME/.oh-my-zsh
+export DEFAULT_USER="$USER"
+
+ZSH_THEME=""
+export PROJECTS_DIR=$HOME/projects
+
+plugins=(
+    aws
+    compleat
+    docker
+    git
+    git-extras
+    helm
+    history
+    kops
+    kubectl
+    tmux
+    web-search
+)
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    plugins+=(osx)
+fi
+
+fpath=(~/.zsh/completions $fpath)
+fpath=("$HOME/.zsh/functions" $fpath)
+autoload -U promptinit; promptinit
+autoload -U compinit && compinit
+source $ZSH/oh-my-zsh.sh
+prompt pure
+
+# history
+setopt hist_ignore_all_dups inc_append_history
+HISTFILE=~/.zhistory
+HISTSIZE=30000
+SAVEHIST=30000
+
+# awesome cd movements from zshkit
+setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
+DIRSTACKSIZE=5
+
+# history
+setopt extendedglob        # enable extended globbing
+
+# Allow [ or ] whereever you want
+unsetopt nomatch
+
+# vi mode
+bindkey -v
+bindkey "^F" vi-cmd-mode
+bindkey jj vi-cmd-mode
+
+# handy keybindings
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
+bindkey "^r" history-incremental-search-backward
+bindkey "^P" history-search-backward
+bindkey "^Y" accept-and-hold
+bindkey "^N" insert-last-word
+bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
+
+# GO
+export GOROOT=/usr/local/go
+export GOPATH=$PROJECTS_DIR
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
+
+
+# gnupg
+#if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
+    #source ~/.gnupg/.gpg-agent-info
+    #export GPG_AGENT_INFO
+#else
+    #eval $(gpg-agent --daemon --write-env-file ~/.gnupg/.gpg-agent-info)
+#fi
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# kops - completion
+if which kops > /dev/null; then source <(kops completion zsh); fi
+if which helm > /dev/null; then source <(helm completion zsh); fi
+if which kubectl > /dev/null; then source <(kubectl completion zsh); fi
+if which pipenv > /dev/null; then source <( pipenv --completion); fi
+
+# misc
+stty erase '^?'
+
+# aliases
+if [[ -f ~/.aliases ]]; then source ~/.aliases; fi
+
+# keybase - private shell profile
+if [[ -d /keybase/private ]]; then
+  # Find this current user's private directory (any dir without a comma in it)
+  user_private_dir=$(ls /keybase/private | grep -v ',')
+  private_shell_profile="/keybase/private/$user_private_dir/.private_shell_profile"
+  if [[ -f "private_shell_profile" ]]; then
+      echo "Executing additional shell profile private_shell_profile"
+      source $private_shell_profile
+  fi
+fi
+
+# remove user@host from prompt when using ssh
+prompt_context() {
+  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    prompt_segment black default "%(!.%{%F{yellow}%}.)"
+  fi
+}
+
+#pyenv 
+if [[ -d "$HOME/.pyenv/bin" ]]; then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+elif [[ -d "/usr/local/pyenv/bin" ]]; then
+    export PATH="/usr/local/pyenv/bin:$PATH"
+    export PYENV_ROOT="/usr/local/pyenv"
+fi
+if  [[ -n ${PS1:-''} ]] && which pyenv &>/dev/null; then
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+export PATH=$PATH:/go/bin
+# local config
+if [[ -f ~/.zshrc.local ]]; then source ~/.zshrc.local; fi
+if [[ -f ~/.zshrc.secret ]]; then source ~/.zshrc.secret; fi
