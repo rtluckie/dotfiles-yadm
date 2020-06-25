@@ -1,0 +1,1 @@
+run -b '$XDG_CONFIG_HOME/tmux/plugins/tpm/tpm'
