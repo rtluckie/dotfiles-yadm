@@ -25,7 +25,7 @@ function bootstrap_antibody() {
     if [[ ! -x "$(command -v antibody)" ]]; then
         curl -sfL git.io/antibody | sh -s - -b ~/.local/bin
     else
-        echo "⮀ Antibody already installed..."
+        echo "  > Antibody already installed..."
     fi
 }
 
@@ -35,7 +35,7 @@ function bootstrap_zprezto() {
     if [[ ! -d "${ZDOTDIR:-$HOME}/zprezto" ]]; then
         git clone --quiet --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/zprezto" >/dev/null 2>&1
     else
-        echo "⮀ zprezto already installed..."
+        echo "  > zprezto already installed..."
     fi
 }
 function bootstrap_tmux() {
@@ -44,7 +44,7 @@ function bootstrap_tmux() {
     if [[ ! -d "${XDG_CONFIG_HOME}/tmux/plugins/tpm" ]]; then
         git clone --quiet https://github.com/tmux-plugins/tpm "${XDG_CONFIG_HOME}/tmux/plugins/tpm"
     else
-        echo "⮀ tmux already bootstrapped..."
+        echo "  > tmux already bootstrapped..."
     fi
 }
 
