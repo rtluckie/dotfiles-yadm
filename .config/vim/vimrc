@@ -1,0 +1,6 @@
+set nocompatible
+for config in split(glob('$XDG_CONFIG_HOME/vim/config/*.vim'), '\n')
+  if filereadable(config)
+    exe 'source' config
+  endif
+endfor

@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+# set -euo pipefail
+
+source ~/.zshenv
+
+HERE=$(cd `dirname "${0:A}"` && pwd)
+
+$HERE/hack/bootstrapper bootstrap_antibody
+$HERE/hack/bootstrapper bootstrap_zprezto
+$HERE/hack/bootstrapper bootstrap_tmux
+source $ZDOTDIR/.zshrc
+$HERE/hack/bootstrapper bootstrap_vim

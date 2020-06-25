@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+set -e 
+
+function _message() {
+  caller=$(echo "${FUNCNAME[1]}")
+  base_message=$(echo "$caller" | sed -r 's/(\<|_)([[:alnum:]])/\U \2/g')
+  printf "⮀ %s...\n" "${base_message}"
+}
+
+function main() {
+    if [ "$#" -eq 0 ]; then
+        echo "Must provide script arg with name of function to be called"
+        exit 1
+    else
+        # If this script was called with arguments, then we build for docker
+        #   The following expects the first argument to be the function name
+        $@
+    fi
+}
+
+function bootstrap_vim() {
+    _message
+    if [[ ! -d ~/.config/vim/autoload/plug.vim ]]; then
+        curl --create-dirs -fsSLo ~/.config/vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim
+    fi
+    echo "${GOPATH}"
+    echo "${PATH}"
+    # export GOPATH="${XDG_DATA_HOME}/go:/go"
+    # export PATH=$PATH:/go/bin
+    vim -E -s -u ~/.config/vim/vimrc +'PlugUpgrade --sync' +'PlugInstall --sync' +'PlugUpdate --sync' +qall >> /var/log/kdk-provision.log 2>&1
+}
+
+function bootstrap_antibody() {
+    _message
+    if [[ ! -x "$(command -v antibody)" ]]; then
+        curl -sfL https://raw.githubusercontent.com/getantibody/installer/master/install | sh -s - -b ~/.local/bin >> /var/log/kdk-provision.log 2>&1
+    else
+        echo "  ⮀ Antibody already installed..."
+    fi
+}
+
+function bootstrap_zprezto() {
+    _message
+    if [[ ! -d "${ZDOTDIR:-$HOME}/zprezto" ]]; then
+        JOB_COUNT=$(echo $(($(cat /proc/cpuinfo | grep processor | wc -l) * 2)))
+        git clone --quiet --depth 1 --branch master --recursive --shallow-submodule --jobs ${JOB_COUNT} https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/zprezto" >> /var/log/kdk-provision.log 2>&1
+    else
+        echo "  ⮀ zprezto already installed..."
+    fi
+}
+function bootstrap_tmux() {
+    _message
+    if [[ ! -d "${XDG_CONFIG_HOME}/tmux/plugins/tpm" ]]; then
+        git clone --quiet https://github.com/tmux-plugins/tpm "${XDG_CONFIG_HOME}/tmux/plugins/tpm" >> /var/log/kdk-provision.log 2>&1
+    else
+        echo "  ⮀ tmux already bootstrapped..."
+    fi
+}
+function update_yadm_remote() {
+    _message
+    cd ~/.config/yadm/repo.git
+    if [[ ! "$(git remote -v)" == *"$http"* ]]; then
+        echo "No http in git remote"
+        cd -
+        exit 0
+    fi
+    GIT_REMOTE=$(git remote -v | head -1 | sed 's| (fetch)||g' | sed 's|^origin\t||g' | awk -F '/' '{print "git@"$(NF-2)":"$(NF-1)"/"$NF}')
+    git remote set-url origin ${GIT_REMOTE}
+    cd -
+}
+
+
+main "$@"
