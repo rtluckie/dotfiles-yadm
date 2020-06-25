@@ -16,6 +16,7 @@
 #
 #█▓▒░ history
 HISTFILE=$XDG_DATA_HOME/zsh/zhistory
+mkdir -p $(dirname $HISTFILE)
 setopt APPEND_HISTORY
 HISTSIZE=1200
 SAVEHIST=1000
