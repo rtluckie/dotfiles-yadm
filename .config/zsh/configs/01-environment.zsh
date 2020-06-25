@@ -1,6 +1,3 @@
-#█▓▒░ timestamps
-#HIST_STAMPS=yyyy/mm/dd
-
 #█▓▒░ paths
 export PATH=/usr/local/bin:$HOME/bin:$HOME/.local/bin:$PATH
 

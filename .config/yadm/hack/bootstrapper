@@ -1,0 +1,52 @@
+#!/usr/bin/env zsh
+set -e
+
+function main() {
+    if [ "$#" -eq 0 ]; then
+        echo "Must provide script arg with name of function to be called"
+        exit 1
+    else
+        # If this script was called with arguments, then we build for docker
+        #   The following expects the first argument to be the function name
+        $@
+    fi
+}
+
+function bootstrap_vim() {
+    _message
+    if [[ ! -d ~/.config/vim/autoload/plug.vim ]]; then
+        curl --create-dirs -fsSLo ~/.config/vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim
+    fi
+    zsh -c "yes '\n' | vim +PlugUpdate +PlugClean! +PlugUpdate +qall"
+}
+
+function bootstrap_antibody() {
+    _message
+    if [[ ! -x "$(command -v antibody)" ]]; then
+        curl -sfL git.io/antibody | sh -s - -b ~/.local/bin
+    else
+        echo "⮀ Antibody already installed..."
+    fi
+}
+
+function bootstrap_zprezto() {
+    _message
+
+    if [[ ! -d "${ZDOTDIR:-$HOME}/zprezto" ]]; then
+        git clone --quiet --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/zprezto" > /dev/null 2>&1
+    else
+        echo "⮀ zprezto already installed..."
+    fi
+}
+
+
+
+function _message() {
+    caller=$(echo $funcstack[2])
+    base_message=$(echo $caller | sed -r 's/(\<|_)([[:alnum:]])/\U \2/g')
+    printf "⮀ %s...\n" $base_message
+}
+
+#####################################################################
+# Run the main program
+main "$@"

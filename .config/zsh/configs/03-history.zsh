@@ -1,4 +1,5 @@
 #█▓▒░ history
+HIST_STAMPS=yyyymmddhhmmss
 HISTFILE=$XDG_DATA_HOME/zsh/zhistory
 mkdir -p $(dirname $HISTFILE)
 setopt APPEND_HISTORY
