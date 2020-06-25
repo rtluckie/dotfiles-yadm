@@ -6,15 +6,9 @@ set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
 set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
 let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
-let configs = [
-\  "10-general",
-\  "20-ui",
-\  "30-commands",
-\  "40-plugins",
-\  "50-plugin-settings",
-\]
+let configs = ['10-general', '20-ui', '30-commands', '40-plugins', '50-plugin-settings']
 for config in configs
-let config_path="$XDG_CONFIG_HOME/vim/configs/".config.".vim"
+  let config_path=expand("$XDG_CONFIG_HOME/vim/configs/".config.".vim")
   if filereadable(config_path)
     execute 'source' config_path
   endif
