@@ -30,28 +30,29 @@ Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
 
 " stylize
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'xero/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/colorizer'
 Plug 'chrisbra/unicode.vim'
 Plug 'powerman/vim-plugin-AnsiEsc'
 
 " features
-Plug 'rking/ag.vim'
-Plug 'matze/vim-move'
-Plug 'isa/vim-matchit'
-Plug 'godlygeek/tabular'
-Plug 'tpope/tpope-vim-abolish'
-Plug 'xero/securemodelines'
-Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
-Plug 'junegunn/limelight.vim', { 'on': 'Goyo' }
+" Plug 'rking/ag.vim'
+" Plug 'matze/vim-move'
+" Plug 'isa/vim-matchit'
+" Plug 'godlygeek/tabular'
+" Plug 'tpope/tpope-vim-abolish'
+" Plug 'xero/securemodelines'
+" Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
+" Plug 'junegunn/limelight.vim', { 'on': 'Goyo' }
 Plug 'majutsushi/tagbar', { 'on': 'Tagbar' }
-Plug 'junegunn/gv.vim', { 'on': 'GV' }
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+" Plug 'junegunn/gv.vim', { 'on': 'GV' }
+" Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 
 " multiplexer integration
 Plug 'roxma/vim-tmux-clipboard'

@@ -3,6 +3,8 @@
 "█▓▒░ icy chill
 colorscheme nord
 
+"█▓▒░ airline
+let g:airline_powerline_fonts = 1
 "█▓▒░ omnifuncs
 augroup omnifuncs
   au!
