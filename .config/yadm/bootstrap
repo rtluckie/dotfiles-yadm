@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 echo "Bootstraping Vim"
-bash -c "vim +PlugUpdate +PlugClean! +PlugUpdate +qall"
+bash -c "yes '\n' | vim --not-a-term +PlugUpdate +PlugClean! +PlugUpdate +qall"
