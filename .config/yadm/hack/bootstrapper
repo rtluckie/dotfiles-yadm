@@ -17,7 +17,7 @@ function bootstrap_vim() {
     if [[ ! -d ~/.config/vim/autoload/plug.vim ]]; then
         curl --create-dirs -fsSLo ~/.config/vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim
     fi
-    zsh -c "yes '\n' | vim --not-a-term +PlugUpdate +PlugClean! +PlugUpdate +qall"
+    zsh -c "yes '\n' | vim +PlugUpdate +PlugClean! +PlugUpdate +qall"
 }
 
 function bootstrap_antibody() {
