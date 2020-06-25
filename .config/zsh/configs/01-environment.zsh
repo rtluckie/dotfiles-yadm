@@ -1,19 +1,3 @@
-#                 ██      
-#                ░██      
-#  ██████  ██████░██      
-# ░░░░██  ██░░░░ ░██████  
-#    ██  ░░█████ ░██░░░██ 
-#   ██    ░░░░░██░██  ░██ 
-#  ██████ ██████ ░██  ░██ 
-# ░░░░░░ ░░░░░░  ░░   ░░  
-#
-#  ▓▓▓▓▓▓▓▓▓▓
-# ░▓ author ▓ xero <x@xero.nu>
-# ░▓ code   ▓ http://code.xero.nu/dotfiles
-# ░▓ mirror ▓ http://git.io/.files
-# ░▓▓▓▓▓▓▓▓▓▓
-# ░░░░░░░░░░
-#
 #█▓▒░ timestamps
 #HIST_STAMPS=yyyy/mm/dd
 
@@ -21,8 +5,9 @@
 export PATH=/usr/local/bin:$HOME/bin:$HOME/.local/bin:$PATH
 
 #█▓▒░ preferred text editor
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
+export PAGER=less
 
 #█▓▒░ language
 export LC_COLLATE=en_US.UTF-8

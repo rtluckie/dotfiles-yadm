@@ -1,41 +1,25 @@
-"           ██
-"          ░░
-"  ██    ██ ██ ██████████  ██████  █████
-" ░██   ░██░██░░██░░██░░██░░██░░█ ██░░░██
-" ░░██ ░██ ░██ ░██ ░██ ░██ ░██ ░ ░██  ░░
-"  ░░████  ░██ ░██ ░██ ░██ ░██   ░██   ██
-"   ░░██   ░██ ███ ░██ ░██░███   ░░█████
-"    ░░    ░░ ░░░  ░░  ░░ ░░░     ░░░░░
-"
-"  ▓▓▓▓▓▓▓▓▓▓
-" ░▓ author ▓ xero <x@xero.nu>
-" ░▓ code   ▓ http://code.xero.nu/dotfiles
-" ░▓ mirror ▓ http://git.io/.files
-" ░▓▓▓▓▓▓▓▓▓▓
-" ░░░░░░░░░░
-"
-" use vim settings, rather than vi settings
+"█▓▒░ use vim settings, rather than vi settings
 " must be first, because it changes other options as a side effect
 set nocompatible
 
-" security
+"█▓▒░ security
 set modelines=0
 
-" hide buffers, not close them
+"█▓▒░ hide buffers, not close them
 set hidden
 
-" maintain undo history between sessions
+"█▓▒░ maintain undo history between sessions
 set undofile
 set undodir=~/.vim/undo
 set noswapfile
 
-" fuzzy find
+"█▓▒░ fuzzy find
 set path+=**
-" lazy file name tab completion
+"█▓▒░ lazy file name tab completion
 set wildmode=longest,list,full
 set wildmenu
 set wildignorecase
-" ignore files vim doesnt use
+"█▓▒░ ignore files vim doesnt use
 set wildignore+=.git,.hg,.svn
 set wildignore+=*.aux,*.out,*.toc
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest,*.rbc,*.class
@@ -47,47 +31,47 @@ set wildignore+=*.doc,*.pdf,*.cbr,*.cbz
 set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz,*.kgb
 set wildignore+=*.swp,.lock,.DS_Store,._*
 
-" case insensitive search
+"█▓▒░ case insensitive search
 set ignorecase
 set smartcase
 set infercase
 
-" the /g flag on :s substitutions by default
+"█▓▒░ the /g flag on :s substitutions by default
 "set gdefault <<--- need to break this habit
 
-" make backspace behave in a sane manner
+"█▓▒░ make backspace behave in a sane manner
 set backspace=indent,eol,start
 
-" searching
+"█▓▒░ searching
 set hlsearch
 set incsearch
 if has("nvim")
   set inccommand=split
 endif
 
-" use indents of 4 spaces
+"█▓▒░ use indents of 4 spaces
 set shiftwidth=4
 
-" tabs are tabs
+"█▓▒░ tabs are tabs
 set noexpandtab
 
-" an indentation every four columns
+"█▓▒░ an indentation every four columns
 set tabstop=4
 
-" let backspace delete indent
+"█▓▒░ let backspace delete indent
 set softtabstop=4
 
-" enable auto indentation
+"█▓▒░ enable auto indentation
 set autoindent
 
-" remove trailing whitespaces and ^M chars
+"█▓▒░ remove trailing whitespaces and ^M chars
 augroup ws
   au!
   autocmd FileType c,cpp,java,php,js,json,css,scss,sass,py,rb,coffee,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 augroup end
 
-" set leader key to comma
+"█▓▒░ set leader key to comma
 let mapleader=","
 
-" coffee pasta
+"█▓▒░ coffee pasta
 set clipboard^=unnamedplus

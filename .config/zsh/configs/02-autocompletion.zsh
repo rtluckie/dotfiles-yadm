@@ -1,19 +1,3 @@
-#                 ██      
-#                ░██      
-#  ██████  ██████░██      
-# ░░░░██  ██░░░░ ░██████  
-#    ██  ░░█████ ░██░░░██ 
-#   ██    ░░░░░██░██  ░██ 
-#  ██████ ██████ ░██  ░██ 
-# ░░░░░░ ░░░░░░  ░░   ░░  
-#
-#  ▓▓▓▓▓▓▓▓▓▓
-# ░▓ author ▓ xero <x@xero.nu>
-# ░▓ code   ▓ http://code.xero.nu/dotfiles
-# ░▓ mirror ▓ http://git.io/.files
-# ░▓▓▓▓▓▓▓▓▓▓
-# ░░░░░░░░░░
-#
 #█▓▒░ autocompletion systems
 fpath=($XDG_CONFIG_HOME/zsh/configs/completion $fpath)
 autoload -Uz compinit

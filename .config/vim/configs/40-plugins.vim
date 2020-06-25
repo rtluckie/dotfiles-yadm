@@ -22,10 +22,7 @@ endif
 
 call plug#begin('$XDG_CONFIG_HOME/vim/plugged')
 " colors
-Plug 'xero/sourcerer.vim'
-Plug 'xero/blaquemagick.vim'
-Plug 'xero/vim-noctu'
-Plug 'xero/nord-vim-mod'
+Plug 'arcticicestudio/nord-vim'
 
 " programming
 Plug 'ajh17/VimCompletesMe'

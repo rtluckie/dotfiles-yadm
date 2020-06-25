@@ -1,19 +1,3 @@
-#                 ██      
-#                ░██      
-#  ██████  ██████░██      
-# ░░░░██  ██░░░░ ░██████  
-#    ██  ░░█████ ░██░░░██ 
-#   ██    ░░░░░██░██  ░██ 
-#  ██████ ██████ ░██  ░██ 
-# ░░░░░░ ░░░░░░  ░░   ░░  
-#
-#  ▓▓▓▓▓▓▓▓▓▓
-# ░▓ author ▓ xero <x@xero.nu>
-# ░▓ code   ▓ http://code.xero.nu/dotfiles
-# ░▓ mirror ▓ http://git.io/.files
-# ░▓▓▓▓▓▓▓▓▓▓
-# ░░░░░░░░░░
-#
 #█▓▒░ aliases
 alias xyzzy="echo nothing happens"
 alias ls="ls -hF --color=auto"

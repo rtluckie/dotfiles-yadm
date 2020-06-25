@@ -1,33 +1,9 @@
-"           ██
-"          ░░
-"  ██    ██ ██ ██████████  ██████  █████
-" ░██   ░██░██░░██░░██░░██░░██░░█ ██░░░██
-" ░░██ ░██ ░██ ░██ ░██ ░██ ░██ ░ ░██  ░░
-"  ░░████  ░██ ░██ ░██ ░██ ░██   ░██   ██
-"   ░░██   ░██ ███ ░██ ░██░███   ░░█████
-"    ░░    ░░ ░░░  ░░  ░░ ░░░     ░░░░░
-"
-"  ▓▓▓▓▓▓▓▓▓▓
-" ░▓ author ▓ xero <x@xero.nu>
-" ░▓ code   ▓ http://code.xero.nu/dotfiles
-" ░▓ mirror ▓ http://git.io/.files
-" ░▓▓▓▓▓▓▓▓▓▓
-" ░░░░░░░░░░
-"
 
-" wizard colors https://git.io/vim.sourcerer
-"colorscheme sourcerer
 
-" dark wizard colors http://git.io/blaquemagick.vim
-"colorscheme blaquemagick
-
-" icy chill
+"█▓▒░ icy chill
 colorscheme nord
 
-" use your shell colors
-"colorscheme noctu
-
-" omnifuncs
+"█▓▒░ omnifuncs
 augroup omnifuncs
   au!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -38,12 +14,12 @@ augroup omnifuncs
   autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
 augroup end
 
-" completions
+"█▓▒░ completions
 let b:vcm_tab_complete = 'omni'
 set omnifunc=syntaxcomplete#Complete
-" select the completion with enter
+"█▓▒░ select the completion with enter
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" close preview on completion complete
+"█▓▒░ close preview on completion complete
 augroup completionhide
   au!
   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -59,7 +35,7 @@ if has('nvim')
   inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endif
 
-" linting
+"█▓▒░linting
 let g:ale_completion_enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = ' '
@@ -68,7 +44,7 @@ let g:ale_sign_warning = ' '
 "let g:ale_lint_on_text_changed = 'never'
 highlight ALEErrorSign ctermbg=0 ctermfg=magenta
 
-" file browser
+"█▓▒░ file browser
 let NERDTreeShowHidden = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
@@ -76,7 +52,7 @@ let g:webdevicons_enable_nerdtree = 1
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
 
-" disable folding
+"█▓▒░ disable folding
 let g:vim_json_syntax_conceal = 0
 
 " verticle diffs
@@ -91,41 +67,42 @@ augroup finalcountdown
   nmap - :NERDTreeToggle<cr>
 augroup END
 
-" speed optimizations
+"█▓▒░ speed optimizations
 let g:gitgutter_realtime = 1
 let g:gitgutter_eager = 1
 let g:gitgutter_max_signs = 1500
 let g:gitgutter_diff_args = '-w'
-" custom symbols
+
+"█▓▒░ custom symbols
 let g:gitgutter_sign_added = '+'
 let g:gitgutter_sign_modified = '~'
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '^'
 let g:gitgutter_sign_modified_removed = ':'
-" color overrrides
+"█▓▒░ color overrrides
 highlight clear SignColumn
 highlight GitGutterAdd ctermfg=green ctermbg=0
 highlight GitGutterChange ctermfg=yellow ctermbg=0
 highlight GitGutterDelete ctermfg=red ctermbg=0
 highlight GitGutterChangeDelete ctermfg=red ctermbg=0
 
-" use the silver searcher
+"█▓▒░ use the silver searcher
 let g:ag_prg="ag -i --vimgrep"
 let g:ag_highlight=1
 " map \ to the ag command for quick searching
 nnoremap \ :Ag<SPACE>
 
-" use {H,J,K,L} to move lines
+"█▓▒░ use {H,J,K,L} to move lines
 let g:move_key_modifier = 'S'
 " tmux/vim resize amount
 let g:window_resize_count = 2
 
-" limit modelines
+"█▓▒░ limit modelines
 set nomodeline
 let g:secure_modelines_verbose = 0
 let g:secure_modelines_modelines = 15
 
-" distraction free writing mode
+"█▓▒░ distraction free writing mode
 let g:limelight_conceal_ctermfg = 240
 function! s:goyo_enter()
   Limelight
@@ -153,76 +130,6 @@ augroup goyoactions
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup end
 
-" " ┏━┓╺┳╸┏━┓╺┳╸╻ ╻┏━┓╻  ╻┏┓╻┏━╸
-" " ┗━┓ ┃ ┣━┫ ┃ ┃ ┃┗━┓┃  ┃┃┗┫┣╸ 
-" " ┗━┛ ╹ ╹ ╹ ╹ ┗━┛┗━┛┗━╸╹╹ ╹┗━╸
-" " lightline http://git.io/lightline
-" " █▓▒░ wizard status line
-
-" let s:base03 = [ '#151513', 233 ]
-" let s:base02 = [ '#303030', 0 ]
-" let s:base01 = [ '#4e4e43', 239 ]
-" let s:base00 = [ '#666656', 242  ]
-" let s:base0 = [ '#808070', 244 ]
-" let s:base1 = [ '#949484', 242 ]
-" let s:base2 = [ '#a8a897', 248 ]
-" let s:base3 = [ '#e8e8d3', 253 ]
-" let s:yellow = [ '#7A7A57', 11 ]
-" let s:orange = [ '#7A7A57', 3 ]
-" let s:red = [ '#5F8787', 1 ]
-" let s:magenta = [ '#8181A6', 13 ]
-" let s:cyan = [ '#87ceeb', 12 ]
-" let s:green = [ '#7A7A57', 3 ]
-" let s:none = [ 'none', 'none' ]
-
-" let s:p = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}}
-" let s:p.normal.left = [ [ s:base02, s:cyan ], [ s:base3, s:base01 ] ]
-" let s:p.normal.right = [ [ s:base02, s:base1 ], [ s:base2, s:base01 ] ]
-" let s:p.inactive.right = [ [ s:base02, s:base00 ], [ s:base0, s:base02 ] ]
-" let s:p.inactive.left =  [ [ s:base0, s:base02 ], [ s:base00, s:base02 ] ]
-" let s:p.insert.left = [ [ s:base02, s:magenta ], [ s:base3, s:base01 ] ]
-" let s:p.replace.left = [ [ s:base02, s:red ], [ s:base3, s:base01 ] ]
-" let s:p.visual.left = [ [ s:base02, s:green ], [ s:base3, s:base01 ] ]
-" let s:p.normal.middle = [ [ s:none, s:none ] ]
-" let s:p.inactive.middle = copy(s:p.normal.middle)
-" let s:p.tabline.left = [ [ s:base3, s:base00 ] ]
-" let s:p.tabline.tabsel = [ [ s:base3, s:base02 ] ]
-" let s:p.tabline.middle = copy(s:p.normal.middle)
-" let s:p.tabline.right = copy(s:p.normal.right)
-" let s:p.normal.error = [ [ s:base02, s:yellow ] ]
-" let s:p.normal.warning = [ [ s:yellow, s:base01 ] ]
-
-" let g:lightline#colorscheme#nord#palette = lightline#colorscheme#flatten(s:p)
-
-" set laststatus=2
-" let g:lightline = {
-"   \ 'colorscheme': 'nord',
-"   \ 'active': {
-"   \   'left': [ [ 'filename' ],
-"   \             [ 'linter',  'gitbranch' ] ],
-"   \   'right': [ [ 'percent', 'lineinfo' ],
-"   \              [ 'fileencoding', 'filetype' ] ]
-"   \ },
-"   \ 'component_function': {
-"   \   'modified': 'WizMod',
-"   \   'readonly': 'WizRO',
-"   \   'gitbranch': 'WizGit',
-"   \   'filename': 'WizName',
-"   \   'filetype': 'WizType',
-"   \   'fileencoding': 'WizEncoding',
-"   \   'mode': 'WizMode',
-"   \ },
-"   \ 'component_expand': {
-"   \   'linter': 'WizErrors',
-"   \ },
-"   \ 'component_type': {
-"   \   'readonly': 'error',
-"   \   'linter': 'error'
-"   \ },
-"   \ 'separator': { 'left': '▓▒░', 'right': '░▒▓' },
-"   \ 'subseparator': { 'left': '▒', 'right': '░' }
-"   \ }
-" " \ 'separator': { 'left': '▊▋▌▍▎', 'right': '▎▍▌▋▊' },
 
 function! WizMod()
   return &ft =~ 'help\|vimfiler' ? '' : &modified ? '» ' : &modifiable ? '' : ''

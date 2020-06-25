@@ -1,19 +1,3 @@
-#                 ██      
-#                ░██      
-#  ██████  ██████░██      
-# ░░░░██  ██░░░░ ░██████  
-#    ██  ░░█████ ░██░░░██ 
-#   ██    ░░░░░██░██  ░██ 
-#  ██████ ██████ ░██  ░██ 
-# ░░░░░░ ░░░░░░  ░░   ░░  
-#
-#  ▓▓▓▓▓▓▓▓▓▓
-# ░▓ author ▓ xero <x@xero.nu>
-# ░▓ code   ▓ http://code.xero.nu/dotfiles
-# ░▓ mirror ▓ http://git.io/.files
-# ░▓▓▓▓▓▓▓▓▓▓
-# ░░░░░░░░░░
-#
 #█▓▒░ history
 HISTFILE=$XDG_DATA_HOME/zsh/zhistory
 mkdir -p $(dirname $HISTFILE)
