@@ -36,11 +36,12 @@ Plug 'tpope/vim-fugitive'
 
 " stylize
 Plug 'xero/nerdtree'
-Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'chrisbra/colorizer'
 Plug 'chrisbra/unicode.vim'
 Plug 'powerman/vim-plugin-AnsiEsc'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " features
 Plug 'rking/ag.vim'
