@@ -14,7 +14,7 @@ let configs = [
 \  "50-plugin-settings",
 \]
 for config in configs
-  let config_path="$XDG_CONFIG_HOME/vim/configs/".config.".vim")
+let config_path="$XDG_CONFIG_HOME/vim/configs/".config.".vim"
   if filereadable(config_path)
     execute 'source' config_path
   endif
