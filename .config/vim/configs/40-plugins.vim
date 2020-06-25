@@ -23,6 +23,7 @@ endif
 call plug#begin('$XDG_CONFIG_HOME/vim/plugged')
 " colors
 Plug 'arcticicestudio/nord-vim'
+Plug 'altercation/vim-colors-solarized'
 
 " programming
 Plug 'ajh17/VimCompletesMe'

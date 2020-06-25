@@ -1,7 +1,9 @@
 
 
-"█▓▒░ icy chill
-colorscheme nord
+"█▓▒░ colors
+syntax enable
+set background=dark
+colorscheme solarized
 
 "█▓▒░ airline
 let g:airline_powerline_fonts = 1
