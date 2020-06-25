@@ -1,0 +1,1 @@
+for config (${XDG_CONFIG_HOME}/zsh/configs/*.zsh) source $config
