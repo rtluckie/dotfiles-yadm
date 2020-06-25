@@ -51,7 +51,7 @@ function bootstrap_tmux() {
 function _message() {
     caller=$(echo $funcstack[2])
     base_message=$(echo $caller | sed -r 's/(\<|_)([[:alnum:]])/\U \2/g')
-    printf "⮀ %s...\n" $base_message
+    printf "⮀%s...\n" $base_message
 }
 
 #####################################################################
