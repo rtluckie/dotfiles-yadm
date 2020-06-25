@@ -34,7 +34,6 @@ Plug 'xero/vim-noctu'
 Plug 'xero/nord-vim-mod'
 
 " programming
-Plug 'shougo/deoplete.nvim', has('nvim') ? {} : { 'do': [ ':UpdateRemotePlugins', ':set runtimepath+=~/.vim/plugged/deoplete.nvim/' ]}
 Plug 'ajh17/VimCompletesMe'
 Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
