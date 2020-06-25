@@ -1,5 +1,5 @@
 
-" let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
+let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
 for config in split(glob('$XDG_CONFIG_HOME/vim/config/*.vim'), '\n')
   if filereadable(config)
