@@ -1,1 +1,1 @@
-run -b '$XDG_CONFIG_HOME/tmux/plugins/tpm/tpm'
+run -b '~/.config/tmux/plugins/tpm/tpm'
