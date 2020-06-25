@@ -48,6 +48,7 @@ function bootstrap_tmux() {
     fi
 }
 function update_yadm_remote() {
+    echo 'hello'
     _message
 
     cd ~/.config/yadm/repo.git
