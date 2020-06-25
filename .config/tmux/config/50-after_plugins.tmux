@@ -3,6 +3,10 @@ bind-key -r C-l select-window -t :+
 
 bind C-c new-session                                              # create session
 bind C-f command-prompt -p find-session 'switch-client -t %%'     # find session
+
+# splitting
+unbind %
+unbind '"'
 bind - split-window -v                                            # split current window horizontally
 bind _ split-window -h                                            # split current window vertically
 bind-key C-a last-pane                                            # switch to last pane
