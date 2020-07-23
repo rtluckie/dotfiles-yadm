@@ -7,5 +7,7 @@ if [[ -x "$(command -v brew)" ]]; then
   )
   eval $(brew shellenv)
   brew analytics off
+  export HOMEBREW_NO_ANALYTICS=1
+  export HOMEBREW_NO_AUTO_UPDATE=1
 fi
 
