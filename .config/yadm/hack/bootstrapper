@@ -1,69 +1,160 @@
-#!/usr/bin/env bash
-set -e 
+#!/usr/bin/env python3
 
-function _message() {
-  caller=$(echo "${FUNCNAME[1]}")
-  base_message=$(echo "$caller" | sed -r 's/(\<|_)([[:alnum:]])/\U \2/g')
-  printf "⮀ %s...\n" "${base_message}"
-}
+import argparse
+import grp
+import json
+import os
+import logging
+import pwd
+import subprocess
+import multiprocessing
+import pathlib
 
-function main() {
-    if [ "$#" -eq 0 ]; then
-        echo "Must provide script arg with name of function to be called"
-        exit 1
-    else
-        # If this script was called with arguments, then we build for docker
-        #   The following expects the first argument to be the function name
-        $@
-    fi
-}
-
-function bootstrap_vim() {
-    _message
-    if [[ ! -d ~/.config/vim/autoload/plug.vim ]]; then
-        curl --create-dirs -fsSLo ~/.config/vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim
-    fi
-    vim -E -s -u ~/.config/vim/vimrc +'PlugUpgrade --sync' +'PlugInstall --sync' +'PlugUpdate --sync' +qall >> /var/log/kdk-provision.log 2>&1
-}
-
-function bootstrap_antibody() {
-    _message
-    if [[ ! -x "$(command -v antibody)" ]]; then
-        curl -sfL https://raw.githubusercontent.com/getantibody/installer/master/install | sh -s - -b ~/.local/bin >> /var/log/kdk-provision.log 2>&1
-    else
-        echo "  ⮀ Antibody already installed..."
-    fi
-}
-
-function bootstrap_zprezto() {
-    _message
-    if [[ ! -d "${ZDOTDIR:-$HOME}/zprezto" ]]; then
-        JOB_COUNT=$(echo $(($(cat /proc/cpuinfo | grep processor | wc -l) * 2)))
-        git clone --quiet --depth 1 --branch master --recursive --shallow-submodule --jobs ${JOB_COUNT} https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/zprezto" >> /var/log/kdk-provision.log 2>&1
-    else
-        echo "  ⮀ zprezto already installed..."
-    fi
-}
-function bootstrap_tmux() {
-    _message
-    if [[ ! -d "${XDG_CONFIG_HOME}/tmux/plugins/tpm" ]]; then
-        git clone --quiet https://github.com/tmux-plugins/tpm "${XDG_CONFIG_HOME}/tmux/plugins/tpm" >> /var/log/kdk-provision.log 2>&1
-    else
-        echo "  ⮀ tmux already bootstrapped..."
-    fi
-}
-function update_yadm_remote() {
-    _message
-    cd ~/.config/yadm/repo.git
-    if [[ ! "$(git remote -v)" == *"$http"* ]]; then
-        echo "No http in git remote"
-        cd -
-        exit 0
-    fi
-    GIT_REMOTE=$(git remote -v | head -1 | sed 's| (fetch)||g' | sed 's|^origin\t||g' | awk -F '/' '{print "git@"$(NF-2)":"$(NF-1)"/"$NF}')
-    git remote set-url origin ${GIT_REMOTE}
-    cd -
-}
+import shutil
 
 
-main "$@"
+def setup_logging(logger_name='provision_dotfiles', default_log_level='INFO', file_log_level='DEBUG'):
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(default_log_level)
+    formatter = logging.Formatter(fmt='%(asctime)s:%(msecs)-4d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
+    file_handler = logging.FileHandler('/tmp/{}.log'.format(logger_name))
+    file_handler.setLevel(file_log_level)
+    file_handler.setFormatter(formatter)
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(default_log_level)
+    console_handler.setFormatter(formatter)
+
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+    return logger
+
+
+def cli(command_args=None):
+    parser = argparse.ArgumentParser(description='Provision dotfiles.')
+    parser.add_argument("-v", "--verbose", dest='VERBOSE', action="store_true")
+
+    subparsers = parser.add_subparsers(dest='COMMAND')
+
+    prezto = subparsers.add_parser('prezto', help='Bootstrap prezto')
+    prezto.set_defaults(func=bootstrap_prezto)
+
+    vim = subparsers.add_parser('vim', help='Bootstrap vim')
+    vim.set_defaults(func=bootstrap_vim)
+
+    antibody = subparsers.add_parser('antibody', help='Bootstrap antibody')
+    antibody.set_defaults(func=bootstrap_antibody)
+
+    tmux = subparsers.add_parser('tmux', help='Bootstrap tmux')
+    tmux.set_defaults(func=bootstrap_tmux)
+
+    args = parser.parse_args(command_args)
+    return parser, args
+
+    if args.VERBOSE:
+        log = setup_logging(default_log_level='DEBUG')
+    else:
+        log = setup_logging()
+    
+    args.func(args)
+
+
+
+
+
+def run_command(cmd=None):
+    if type(cmd) == str:
+        cmd_str = cmd
+        cmd = cmd.split()
+    else:
+        cmd_str = ' '.join(cmd)
+    log.debug('Running command [%s]', cmd_str)
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    while True:
+        stdout = process.stdout.readline().strip().decode("utf-8")
+        stderr = process.stderr.readline().strip().decode("utf-8")
+        if (stdout == '' and stderr == '') and process.poll() is not None:
+            break
+        if stdout:
+            log.debug(stdout)
+        if stderr:
+            log.debug(stderr)
+    rc = process.poll()
+    return rc
+
+
+def bootstrap_prezto(*args, **kwargs):
+    log.info('Bootstrapping prezto')
+    cpu_count = multiprocessing.cpu_count()
+    zdotdir = os.getenv('ZDOTDIR')
+    if not zdotdir:
+        raise ValueError('ZDOTDIR is not defined')
+    dpath = os.path.join(zdotdir, 'zprezto')
+    if not os.path.isdir(dpath):
+        orig_cwd = os.getcwd()
+        log.debug('clone prezto repo')
+        cmd = "git clone https://github.com/sorin-ionescu/prezto.git {dpath}"
+        cmd = cmd.format(job_count=cpu_count, dpath=dpath)
+        rc = run_command(cmd=cmd)
+        os.chdir(dpath)
+
+        log.debug('pulling prezto submodules')
+        cmd = 'git submodule foreach git fetch'
+        rc = run_command(cmd=cmd)
+        cmd = 'git submodule update --init --recursive'
+        rc = run_command(cmd=cmd)
+        os.chdir(orig_cwd)
+
+def bootstrap_vim(*args, **kwargs):
+    log.info('Bootstrapping vim')
+    def install_vim_plug():
+        fpath = os.path.join(pathlib.Path.home(), '.config', 'vim', 'autoload', 'plug.vim')
+        if not os.path.isfile(fpath):
+            log.debug('installing vim-plug')
+            cmd = 'curl --create-dirs -fsSLo {fpath} https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+            cmd = cmd.format(fpath=fpath)
+            run_command(cmd=cmd)
+        else:
+            log.debug('vim-plug already installed')
+    
+    def install_plugins():
+        cmd = 'vim -E -s -u ~/.config/vim/vimrc -c PlugUpgrade -c PlugInstall -c PlugUpdate -c qall'
+        run_command(cmd=cmd)
+
+    install_vim_plug()
+    install_plugins()
+
+
+def bootstrap_tmux(*args, **kwargs):
+    log.info('Bootstrapping tmux')
+    dpath = os.path.join(pathlib.Path.home(), '.config', 'tmux', 'plugins', 'tpm')
+    if not os.path.isdir(dpath):
+        log.info('installing tpm')
+        cmd = 'git clone --quiet https://github.com/tmux-plugins/tpm {dpath}'
+        cmd = cmd.format(dpath=dpath)
+        rc = run_command(cmd)
+    else:
+        log.info('tpm already installed')
+
+
+
+def bootstrap_antibody(*args, **kwargs):
+    log.info('Bootstrapping antibody')
+    def install_antibody():
+        antibody_path = shutil.which('antibody')
+        if not antibody_path:
+            base_cmd = 'bash -c'.split()
+            install_cmd = 'curl -sfL https://raw.githubusercontent.com/getantibody/installer/master/install | sh -s - -b ~/.local/bin'
+            cmd = base_cmd
+            cmd.append(install_cmd)
+            rc = run_command(cmd=cmd)
+    install_antibody()
+
+
+if __name__ == '__main__':
+    parser, args = cli()
+    if args.VERBOSE:
+        log = setup_logging(default_log_level='DEBUG')
+    else:
+        log = setup_logging()
+
+    args.func(args)

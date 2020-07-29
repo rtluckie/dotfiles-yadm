@@ -1,10 +1,17 @@
 #!/usr/bin/env zsh
-source ~/.zshenv
-set -euo pipefail
 
-HERE=$(cd `dirname "${0:A}"` && pwd)
+# source ~/.zshenv
+# set -euo pipefail
 
-# $HERE/../hack/bootstrapper bootstrap_vim
-# $HERE/../hack/bootstrapper bootstrap_antibody
-# $HERE/../hack/bootstrapper bootstrap_zprezto
-# $HERE/../hack/bootstrapper bootstrap_tmux
+# HERE=$(cd `dirname "${0:A}"` && pwd)
+
+# if [[ ! -x "$(command -v python3)" ]]; then
+#     echo 'python3 is not installed...'
+#     exit 1
+# fi
+
+# $HERE/../hack/bootstrapper --verbose antibody
+# $HERE/../hack/bootstrapper --verbose prezto
+# $HERE/../hack/bootstrapper --verbose tmux
+# source $ZDOTDIR/.zshrc || true
+# $HERE/../hack/bootstrapper --verbose vim
