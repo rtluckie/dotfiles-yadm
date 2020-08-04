@@ -10,5 +10,5 @@ if [[ -f "$(brew --prefix)/opt/fzf/install" ]]; then
 fi
 
 if [[ -x "$(command -v fd)" ]]; then
-    export FZF_DEFAULT_COMMAND='fd --type f'
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 fi
