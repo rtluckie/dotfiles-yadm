@@ -11,8 +11,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-airline/vim-airline'
 
 " colors
-" Plug 'arcticicestudio/nord-vim'
-Plug 'altercation/vim-colors-solarized'
+Plug 'arcticicestudio/nord-vim'
 
 
 "█▓▒░ git
