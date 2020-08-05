@@ -24,6 +24,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'ycm-core/youcompleteme', { 'do': 'python3 install.py --go-completer'}
 
 "█▓▒░ language support 
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
