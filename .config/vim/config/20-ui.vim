@@ -22,10 +22,10 @@ set number
 set nowrap
 
 "█▓▒░ no folding
-set nofoldenable
-set foldlevel=99
-set foldminlines=99
-set foldlevelstart=99
+" set nofoldenable
+" set foldlevel=99
+" set foldminlines=99
+" set foldlevelstart=99
 
 "█▓▒░ highlight cursor
 set cursorline

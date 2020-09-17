@@ -12,6 +12,8 @@ Plug 'vim-airline/vim-airline'
 
 " colors
 Plug 'arcticicestudio/nord-vim'
+Plug 'morhetz/gruvbox'
+Plug 'edkolev/tmuxline.vim'
 
 
 "█▓▒░ git
@@ -26,7 +28,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'ycm-core/youcompleteme', { 'do': 'python3 install.py --go-completer'}
 
-"█▓▒░ language support 
+"█▓▒░ language support
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': ['go'] }
 Plug 'google/vim-jsonnet', { 'for': ['jsonnet'] }
