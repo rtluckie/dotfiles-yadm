@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
-import grp
-import json
 import os
 import logging
-import pwd
 import subprocess
 import multiprocessing
 import pathlib
@@ -16,7 +13,8 @@ import shutil
 def setup_logging(logger_name='provision_dotfiles', default_log_level='INFO', file_log_level='DEBUG'):
     logger = logging.getLogger(logger_name)
     logger.setLevel(default_log_level)
-    formatter = logging.Formatter(fmt='%(asctime)s:%(msecs)-4d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s', datefmt='%Y.%m.%d %H:%M:%S')
+    formatter = logging.Formatter(fmt='%(asctime)s:%(msecs)-4d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                                  datefmt='%Y.%m.%d %H:%M:%S')
     file_handler = logging.FileHandler('/tmp/{}.log'.format(logger_name))
     file_handler.setLevel(file_log_level)
     file_handler.setFormatter(formatter)
@@ -41,6 +39,9 @@ def cli(command_args=None):
     vim = subparsers.add_parser('vim', help='Bootstrap vim')
     vim.set_defaults(func=bootstrap_vim)
 
+    emacs = subparsers.add_parser('emacs', help='Bootstrap emacs')
+    emacs.set_defaults(func=bootstrap_emacs)
+
     antibody = subparsers.add_parser('antibody', help='Bootstrap antibody')
     antibody.set_defaults(func=bootstrap_antibody)
 
@@ -54,11 +55,8 @@ def cli(command_args=None):
         log = setup_logging(default_log_level='DEBUG')
     else:
         log = setup_logging()
-    
+
     args.func(args)
-
-
-
 
 
 def run_command(cmd=None):
@@ -104,6 +102,7 @@ def bootstrap_prezto(*args, **kwargs):
         rc = run_command(cmd=cmd)
         os.chdir(orig_cwd)
 
+
 def bootstrap_vim(*args, **kwargs):
     log.info('Bootstrapping vim')
     def install_vim_plug():
@@ -115,7 +114,7 @@ def bootstrap_vim(*args, **kwargs):
             run_command(cmd=cmd)
         else:
             log.debug('vim-plug already installed')
-    
+
     def install_plugins():
         cmd = 'vim -E -s -u ~/.config/vim/vimrc -c PlugUpgrade -c PlugInstall -c PlugUpdate -c qall'
         run_command(cmd=cmd)
@@ -136,7 +135,6 @@ def bootstrap_tmux(*args, **kwargs):
         log.info('tpm already installed')
 
 
-
 def bootstrap_antibody(*args, **kwargs):
     log.info('Bootstrapping antibody')
     def install_antibody():
@@ -148,6 +146,31 @@ def bootstrap_antibody(*args, **kwargs):
             cmd.append(install_cmd)
             rc = run_command(cmd=cmd)
     install_antibody()
+
+
+def bootstrap_emacs(*args, **kwargs):
+    log.info('Bootstrapping emacs')
+    home = pathlib.Path.home()
+    emacs_target_path = os.path.join(home, '.config', 'emacs')
+    cmd = "git clone https://github.com/hlissner/doom-emacs {target_path}".format(target_path=emacs_target_path)
+    rc = run_command(cmd=cmd)
+
+    doom_target_path = os.path.join(home, '.config', 'doom')
+
+    os.makedirs(name=doom_target_path, exist_ok=True)
+    shutil.copy(os.path.join(emacs_target_path, "init.example.el"), os.path.join(doom_target_path, "init.el"))
+    shutil.copy(os.path.join(emacs_target_path, "core/templates/config.example.el"),
+                os.path.join(doom_target_path, "config.el"))
+    shutil.copy(os.path.join(emacs_target_path, "packages.example.el"), os.path.join(doom_target_path, "packages.el"))
+
+    cmd = "{path}/bin/doom sync".format(path=emacs_target_path)
+    rc = run_command(cmd=cmd)
+
+    cmd = "{path}/bin/doom env".format(path=emacs_target_path)
+    rc = run_command(cmd=cmd)
+
+    cmd = "emacs --batch -f all-the-icons-install-fonts"
+    rc = run_command(cmd=cmd)
 
 
 if __name__ == '__main__':
