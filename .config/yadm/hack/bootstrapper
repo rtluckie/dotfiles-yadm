@@ -152,6 +152,8 @@ def bootstrap_emacs(*args, **kwargs):
     log.info('Bootstrapping emacs')
     home = pathlib.Path.home()
     emacs_target_path = os.path.join(home, '.config', 'emacs')
+    if os.path.isdir(emacs_target_path):
+        return
     cmd = "git clone https://github.com/hlissner/doom-emacs {target_path}".format(target_path=emacs_target_path)
     rc = run_command(cmd=cmd)
 
