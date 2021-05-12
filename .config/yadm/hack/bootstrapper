@@ -161,7 +161,7 @@ def bootstrap_emacs(*args, **kwargs):
     shutil.copy(os.path.join(emacs_target_path, "init.example.el"), os.path.join(doom_target_path, "init.el"))
     shutil.copy(os.path.join(emacs_target_path, "core/templates/config.example.el"),
                 os.path.join(doom_target_path, "config.el"))
-    shutil.copy(os.path.join(emacs_target_path, "templates/packages.example.el"), os.path.join(doom_target_path, "packages.el"))
+    shutil.copy(os.path.join(emacs_target_path, "core/templates/packages.example.el"), os.path.join(doom_target_path, "packages.el"))
 
     cmd = "{path}/bin/doom sync".format(path=emacs_target_path)
     rc = run_command(cmd=cmd)
