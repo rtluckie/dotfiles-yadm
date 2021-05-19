@@ -35,3 +35,4 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 fi
 
 bindkey "^r" history-incremental-search-backward
+bindkey "^R" history-incremental-search-backward

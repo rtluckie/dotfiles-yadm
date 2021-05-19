@@ -31,5 +31,5 @@ export MOSH_TITLE_NOPREFIX=1
 
 #█▓▒░ timezone
 TIMEZONE="America/Chicago"
-sudo rm -rf /etc/localtime
-sudo ln -sf "/usr/share/zoneinfo/${TIMEZONE}" /etc/localtime
+# sudo rm -rf /etc/localtime
+# sudo ln -sf "/usr/share/zoneinfo/${TIMEZONE}" /etc/localtime
