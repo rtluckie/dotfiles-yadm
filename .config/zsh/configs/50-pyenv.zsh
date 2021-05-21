@@ -5,6 +5,7 @@ elif [[ -d "/usr/local/pyenv/bin" ]]; then
     export PYENV_ROOT="/usr/local/pyenv"
 fi
 if  [[ -n ${PS1:-''} ]] && which pyenv &>/dev/null; then
+    eval "$(pyenv init --path)"
     eval "$(pyenv init - zsh)"
     eval "$(pyenv virtualenv-init - zsh)"
 fi
